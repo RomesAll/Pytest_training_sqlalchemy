@@ -16,9 +16,11 @@ class CandiesService:
         return count
 
     def service_create_candies(self, new_data: list[dict]):
-        res_stmp = self.candies.dao_create_candies(new_data=new_data)
+        dto = [CandyAddSchema(**row) for row in new_data]
+        res_stmp = self.candies.dao_create_candies(new_data=dto)
         return res_stmp
 
     def service_delete_candies(self, id: int):
         res_stmp = self.candies.dao_delete_candies(id=id)
         return res_stmp
+

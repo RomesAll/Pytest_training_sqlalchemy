@@ -1,4 +1,5 @@
 from candies.models import Candies
+from candies.schemas import CandyAddSchema
 from database import session_maker
 from sqlalchemy import Integer, select, insert, delete, func
 
@@ -16,13 +17,13 @@ class CandiesDAO:
             res_query = session.execute(query)
             return res_query.all()[0][0]
     
-    def dao_create_candies(self, new_data: list[dict]):
+    def dao_create_candies(self, new_data: list[CandyAddSchema]):
         result = None
         with session_maker() as session:
-            stmt = insert(Candies).values(new_data)
+            stmt = insert(Candies).values([row.get_dict() for row in new_data])
             res_query = session.execute(stmt)
             session.commit()
-        return result
+        return 'ok'
     
     def dao_delete_candies(self, id: int):
         result = None
@@ -31,4 +32,4 @@ class CandiesDAO:
             res_query = session.execute(query)
             session.commit()
             
-        return result
+        return 'ok'
