@@ -1,12 +1,13 @@
 from candies.service import *
 from candies.schemas import CandyAddSchema, CandySchema
 from candies.models import Candies
-from database import Base, engine, session_maker
+from database import Base, engine, session_maker, settings
 import pytest
 from sqlalchemy import insert
 
 @pytest.fixture(scope='session', autouse=True)
 def setup_db():
+    a = settings.DB_NAME
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
 
