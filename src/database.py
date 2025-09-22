@@ -10,3 +10,5 @@ engine = create_engine(
 
 class Base(DeclarativeBase):
     metadata = MetaData()
+
+session_maker = sessionmaker(engine)
