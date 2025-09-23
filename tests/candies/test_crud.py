@@ -5,26 +5,6 @@ from database import Base, engine, session_maker, settings
 import pytest
 from sqlalchemy import insert
 
-@pytest.fixture(scope='session', autouse=True)
-def setup_db():
-    a = settings.DB_NAME
-    Base.metadata.drop_all(engine)
-    Base.metadata.create_all(engine)
-
-@pytest.fixture(scope='class', autouse=True)
-def default_data_for_db():
-    with session_maker() as session:
-        candies = [
-            {'title': 'candie1'},
-            {'title': 'candie2'},
-            {'title': 'candie3'},
-            {'title': 'candie4'}
-        ]
-
-        stmt = insert(Candies).values(candies)
-        res = session.execute(stmt)
-        session.commit()
-
 class TestCandies:
     
     def test_get_candies(self):
@@ -48,4 +28,3 @@ class TestCandies:
     def test_delete_candies(self):
         service = CandiesService()
         assert service.service_delete_candies(2) == 'ok'
-    
