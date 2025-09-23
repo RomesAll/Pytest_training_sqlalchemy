@@ -2,8 +2,7 @@ services:
   postgres_candies:
     image: postgres:17-alpine
     container_name: postgres_candies
-    env_file:
-      - "dev.env"
+    env_file: "dev.env"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -12,8 +11,7 @@ services:
   postgres_candies_test:
     image: postgres:17-alpine
     container_name: postgres_candies_test
-    env_file:
-      - "test.env"
+    env_file: "test.env"
     volumes:
       - postgres_data_test:/var/lib/postgresql/data
     networks:
@@ -26,7 +24,7 @@ services:
     restart: always
     command: "python src/main.py"
     ports:
-      - 8000:8000
+      - "8000:8000"
     volumes:
       - .:/src
     links:
