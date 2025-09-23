@@ -1,9 +1,7 @@
-from database import *
-from config import *
-from sqlalchemy import Integer, func, select, text
-from candies.models import *
-from candies.service import *
+from fastapi import FastAPI
+import uvicorn
 
+app = FastAPI()
 
-s = CandiesService()
-s.service_create_candies([{'title': 'aboba'}, {'title': 'vcvv'}])
+if __name__ == '__main__':
+    uvicorn.run("main:app", reload=True, host="0.0.0.0", port=8000)

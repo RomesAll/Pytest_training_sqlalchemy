@@ -1,0 +1,47 @@
+services:
+  postgres_candies:
+    image: postgres:17-alpine
+    container_name: postgres_candies
+    env_file:
+      - "dev.env"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - dbnet2
+
+  postgres_candies_test:
+    image: postgres:17-alpine
+    container_name: postgres_candies_test
+    env_file:
+      - "test.env"
+    volumes:
+      - postgres_data_test:/var/lib/postgresql/data
+    networks:
+      - dbnet2
+  
+  candies:
+    build: .
+    image: candies
+    container_name: candies
+    restart: always
+    command: "python src/main.py"
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/src
+    links:
+      - "postgres_candies:dbps"
+      - "postgres_candies_test:dbps_test"
+    networks:
+      - dbnet2
+    depends_on:
+      - postgres_candies
+      - postgres_candies_test
+    
+networks:
+  dbnet2:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  postgres_data_test:
